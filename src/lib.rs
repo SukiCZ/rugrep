@@ -18,8 +18,45 @@ impl Config {
     }
 }
 
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    contents
+        .lines()
+        .filter(|line| line.contains(query))
+        .collect()
+}
+
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let content = fs::read_to_string(config.file_path)?;
-    println!("With content: \n{content}");
+    for line in search(&config.query, &content) {
+        println!("{line}");
+    }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn build_config() {
+        let args = vec![
+            String::from("rugrep"),
+            String::from("query"),
+            String::from("file_path"),
+        ];
+        let config = Config::build(&args).unwrap();
+        assert_eq!(config.query, "query");
+        assert_eq!(config.file_path, "file_path");
+    }
+
+    #[test]
+    fn one_result() {
+        let query = "duct";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.";
+
+        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+    }
 }
