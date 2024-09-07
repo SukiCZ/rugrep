@@ -1,0 +1,11 @@
+[package]
+name = "rugrep"
+version = "0.1.0"
+edition = "2021"
+description = "grep in Rust example"
+repository = "https://github.com/SukiCZ/rugrep"
+license = "MIT OR Apache-2.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
