@@ -68,7 +68,7 @@ mod tests {
             String::from("query"),
             String::from("file_path"),
         ];
-        let config = Config::build(&args).unwrap();
+        let config = Config::build(args.into_iter()).unwrap();
         assert_eq!(config.query, "query");
         assert_eq!(config.file_path, "file_path");
     }
